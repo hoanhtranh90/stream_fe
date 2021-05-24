@@ -3,20 +3,14 @@ import {View,Text} from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from 'app/modules/dashboard/index';
 import PlayScreen from 'app/modules/watchScreen';
+import Playlist from 'app/modules/Playlist';
+import TabMainStackNavigator from './TabMain.navigation';
+import DashBoard from 'app/modules/dashboard/index';
 const Stack = createStackNavigator();
-
-const TabMain = () => {
-    return (
-        <View>
-            <Text>Helo</Text>
-        </View>
-    )
-  };
 
 const MainNavigator = () => (
   <Stack.Navigator headerMode="none">
-    <Stack.Screen name="TabMain" component={Home} />
-    <Stack.Screen name="PlayScreen" component={PlayScreen} />
+    <Stack.Screen name="TabMain" component={TabMainStackNavigator} />
   </Stack.Navigator>
 );
 

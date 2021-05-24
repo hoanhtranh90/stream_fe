@@ -1,64 +1,118 @@
-import React from 'react'
-import { FlatList,Button, Text, TouchableOpacity, View, NativeModules,requireNativeComponent, StyleSheet } from 'react-native'
+import React, { useRef } from 'react'
+import { FlatList, Button, Text, View, NativeModules, TouchableOpacity, StyleSheet, ScrollView, ImageBackground, TouchableHighlight } from 'react-native'
 import * as RootNavigation from 'app/config/root-navigation';
+import Style from 'app/modules/style/Style';
 
 const Home = () => {
     const data = [
-        { id: 1111,url:"https://video-weaver.sin01.hls.ttvnw.net/v1/playlist/CqAEcCkSGTSK8DroHb_fjP9szShTxzg2iUw0jFichW0kb6dzvMVaIvN-3FFvbKh6yOhcnB2htvSCwcUwIOZ7-vph4oMQAYLhjtxm8vQsxRSkybFDOlHj9kf6eohDMHwo0vL_JcDnlaLcBSP75mx3AlU7Zf-_DM4F64zpgM88u6evtPDnN_x4imR_GJGZtHlgTt6GyKmNii-m2iEiKu-Z6bYIFgISUU2LsF8cl9f69wI-IOs63UD8QNrvXqz0yYQARUuF_Z8G5cM5BTN460W3aNYR-sES17ihlEabK4gXNTl6wlHxzX_rSc7pgIUBQxJK8imp1xSzhbnFr27PGOUyO8a8hSCgwFvdQ-SRNefnebr09AJ5wFq-vXKokPsfP-bLZXOKjL64XOzFK-PtK5Vl8gKvZVsZ0QONEfUbXviYwBSrujsctWIElJJ-GEFl1FNpQ3rkgwZYE0RmIgoOlzoahsJ6pvtYtLvt6AKrg2xutHVUW5vmiyOQbvTiXBRKHYXmsSdf5fKA4Pf-G6YZ58ZXEWMi35n-yeLvy44nFFgTN1IWJYlkJr8Nph9dkbpKbiJw818qAU5i9mmsuDwaBPNeUUCh6tFpniPlASeKqe7T6h2-ktt_iq606Lbe726S6jyKK7NUUo7Iz2AirmJFGiIblxGrs_3fvPDFdmMvbQ0aEiYJiO3iE1Ytxr99rh0t3oJtHBtAfCGmfqngdZ--Yhd--L6YOxIQZ7UaAryeHYBl0V6w5t42oBoMWAPB_m5Xsvyjq9n5.m3u8" },
-        { id: 21112,url:"http://192.168.1.199:8000/livetest1/test1.flv" },
-        { id: 1214,url:"https://media.inspirahub.id/trailer/3/1591269758129847909689/hls/index_1080.m3u8" },
-        { id: 412,url:"https://media.inspirahub.id/trailer/3/1591269758129847909689/hls/index_1080.m3u8" },
-        { id: 124124,url:"https://media.inspirahub.id/trailer/3/1591269758129847909689/hls/index_1080.m3u8" },
-        { id: 12321,url:"https://media.inspirahub.id/trailer/3/1591269758129847909689/hls/index_1080.m3u8" },
-        { id: 141354,url:"https://media.inspirahub.id/trailer/3/1591269758129847909689/hls/index_1080.m3u8" },
+        { id: 1,name:"video1", url: "https://media.inspirahub.id/video/208/16188891357902053581892/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/16033488807071666230078.jpg" },
+        { id: 2,name:"video2", url: "https://media.inspirahub.id/video/170/16133836641551032597058/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/15897732751261332965053.jpg" },
+        { id: 3,name:"video3", url: "https://media.inspirahub.id/video/208/16188891357902053581892/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/16020620009608661542.jpg" },
+        { id: 4,name:"video4", url: "https://media.inspirahub.id/audio/210/16188912002751208952840/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/1602057404115754262147.jpg" },
+        { id: 5,name:"video5", url: "https://media.inspirahub.id/audio/210/16188912002751208952840/hls/index_19220210420T041755_00001.aac", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/16151984121021848943896.jpg" },
+        { id: 6,name:"video6", url: "https://media.inspirahub.id/video/208/16188891357902053581892/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/16033488807071666230078.jpg" },
+        { id: 7,name:"video7", url: "https://media.inspirahub.id/video/170/16133836641551032597058/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/15897732751261332965053.jpg" },
+        { id: 8,name:"video8", url: "https://media.inspirahub.id/video/208/16188891357902053581892/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/16020620009608661542.jpg" },
+        { id: 9,name:"video39", url: "https://media.inspirahub.id/audio/210/16188912002751208952840/hls/index.m3u8", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/1602057404115754262147.jpg" },
+        { id: 10,name:"video10", url: "https://media.inspirahub.id/audio/210/16188912002751208952840/hls/index_19220210420T041755_00001.aac", uri: "https://s3-ap-southeast-1.amazonaws.com/prod.inspirahub.id/stream/thumbnail/16151984121021848943896.jpg" },
 
     ]
+    const categories = [
+        { id: 1, name: "Health", bgColor: "#FFAB90" },
+        { id: 2, name: "Sport", bgColor: "#7280FF" },
+        { id: 3, name: "Education", bgColor: "#7FD892" },
+        { id: 4, name: "Photography", bgColor: "#C5A6E3" },
+        { id: 5, name: "Music", bgColor: "#F5369D" },
+    ]
+
     const renderItem = ({ item }) => {
         return (
             <TouchableOpacity onPress={() => NativeModules.ActivityOpen.navigateToWatch(item.url)}>
-                <View style={{ width: 150, height: 200, backgroundColor: 'gray', marginRight: 10 }}>
-                    <Text>{item.id}</Text>
-                </View>
-            </TouchableOpacity>
+            <ImageBackground source={{uri:item.uri}} style={{ width: 250, height: 160, backgroundColor: 'gray', margin: 5 }}>
+            </ImageBackground>
+            <Text style={{fontWeight:'bold',fontSize:18,color:'#fff',marginBottom:30}}>  {item.name}</Text>
+        </TouchableOpacity>
         );
     };
-
+    const renderCategories = ({ item }) => {
+        return (
+            <TouchableOpacity>
+                <View style={{ width: 150, height: 200, backgroundColor: item.bgColor, marginRight: 10, borderRadius: 20 }}>
+                    <Text style={{ alignSelf: 'center', lineHeight: 200, color: '#fff', fontWeight: 'bold', fontSize: 20 }}>{item.name}</Text>
+                </View>
+            </TouchableOpacity>
+        )
+    }
     return (
-        <View>
+        <ScrollView style={{ backgroundColor: '#373737', flex: 1, marginBottom: 50 }}>
             <View style={{ margin: 10 }}>
-                <Text>Test 1</Text>
+                <View style={{ flexDirection: 'row', marginBottom: 15 }}>
+                    <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>Recommended </Text>
+                    <Text style={{ color: '#7280FF', fontWeight: 'bold', fontSize: 18 }}>Categories</Text>
+                </View>
+                <FlatList
+                    data={categories}
+                    renderItem={renderCategories}
+                    horizontal
+                />
+            </View>
+            <View style={{ margin: 10 }}>
+                <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18, marginBottom: 15 }}>Recommended Content</Text>
+                <FlatList
+                    data={data}
+                    renderItem={renderItem}
+                    numColumns={3}
+                    keyExtractor={(item, index) => index.toString()}
+                />
+            </View>
+            {/* <View style={{ margin: 10 }}>
                 <FlatList
                     data={data}
                     renderItem={renderItem}
                     horizontal
                 />
-            </View>
-            <View style={{ margin: 10 }}>
-                <Text>Test 2</Text>
-                <FlatList
-                    data={data}
-                    renderItem={renderItem}
-                    horizontal
-                />
-            </View>
-        </View>
+            </View> */}
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-      flex: 1,
-      justifyContent: 'center',
+        flex: 1,
+        justifyContent: 'center',
     },
     hello: {
-      fontSize: 20,
-      textAlign: 'center',
-      margin: 10
+        fontSize: 20,
+        textAlign: 'center',
+        margin: 10
     },
     scannerview: {
-      height: 300,
-      width: 300,
+        height: 300,
+        width: 300,
     },
-  });
+    buttons: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    button: {
+         marginRight: 10, borderRadius: 20
+    },
+    buttonFocused: {
+        borderWidth: Style.px(10),
+        borderColor: '#eb4034',
+    },
+    buttonPressed: {
+        borderWidth: Style.px(10),
+        borderColor: '#34eb5f',
+    },
+    buttonText: {
+        fontSize: Style.px(30),
+    },
+    buttonProps: {
+        fontSize: Style.px(15),
+    },
+});
 
 export default Home;
