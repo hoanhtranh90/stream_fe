@@ -187,8 +187,13 @@ dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar"])
     //noinspection GradleDynamicVersion
     implementation "com.facebook.react:react-native:+"  // From node_modules
+// https://mvnrepository.com/artifact/com.google.android.exoplayer/exoplayer
+    implementation group: 'com.google.android.exoplayer', name: 'exoplayer', version: '2.14.0'
+
+    implementation group: 'com.devbrackets.android', name: 'exomedia', version: '4.3.0'
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'androidx.media2:media2-exoplayer:1.0.3'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'
